@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 def home(request):
-    return HttpResponse("Welcome to Employees Management System")
+    return render(request, "employees/index.html")
+
+def about(request):
+    return render(request, "employees/about.html")
 # Create your views here.
