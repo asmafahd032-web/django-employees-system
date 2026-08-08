@@ -1,300 +1,255 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة الموظفين | لوحة الفلاتر</title>
-    <!-- استدعاء خط Tajawal الأنيق من جوجل -->
+    <title>نظام إدارة الموظفين | لوحة التحكم</title>
+    <!-- خط تجوال الأنيق من جوجل -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
+            --primary-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --accent-grad: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Tajawal', sans-serif;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 40px 20px;
-            line-height: 1.6;
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        /* الهيدر العلوي */
-        .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
-            margin-bottom: 30px;
+        /* الهيدر الرئيسي */
+        .header-card {
+            background: var(--primary-grad);
+            border-radius: 24px;
+            padding: 2.5rem;
             text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2em;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        /* كرت المعلومات السريع */
-        .info-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            text-align: center;
-        }
-
-        .info-item h4 {
-            color: var(--text-muted);
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .info-item p {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        /* جدول الفلاتر */
-        .table-container {
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.25);
+            margin-bottom: 2rem;
+            position: relative;
             overflow: hidden;
         }
 
-        .table-title {
-            padding: 20px 25px;
-            border-bottom: 1px solid var(--border-color);
-            background-color: #fafafa;
+        .header-card h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
         }
 
-        .table-title h3 {
-            font-size: 1.3em;
-            color: var(--text-main);
+        .header-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* كروت الإحصائيات السريعة */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        /* الجدول العصري */
+        .section-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #f43f5e;
+        }
+
+        .custom-badge {
+            background: var(--accent-grad);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
             text-align: right;
+            border-bottom: 1px solid var(--border-color);
         }
 
         th {
-            background-color: #f9fafb;
-            padding: 16px 20px;
-            font-weight: 700;
             color: var(--text-muted);
-            font-size: 0.9em;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        td {
-            padding: 18px 20px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.95em;
+            font-weight: 600;
         }
 
         tr:last-child td {
             border-bottom: none;
         }
 
-        tr:hover {
-            background-color: #f8fafc;
+        .employee-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
         }
 
-        /* تنسيق الأكواد والنتائج */
-        code {
-            background-color: #f1f5f9;
-            color: #0f172a;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            font-size: 0.9em;
-            border: 1px solid #e2e8f0;
-            direction: ltr;
-            display: inline-block;
-        }
-
-        .result-tag {
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .badge {
-            background-color: #fee2e2;
-            color: var(--accent-red);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85em;
-        }
-
-        /* التجاوب مع الشاشات الصغيرة */
-        @media (max-width: 640px) {
-            body { padding: 15px 10px; }
-            th, td { padding: 12px 10px; }
-            .header h1 { font-size: 1.5em; }
+        .employee-chip {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
-        <!-- الهيدر الرئيسي -->
-        <div class="header">
-            <h1>💻 مشروع هندسة البرمجيات -  الفلاتر</h1>
-            <p>تطبيق دوال التحويل (Django Filters) على بيانات نظام الموظفين</p>
+        <!-- الهيدر -->
+        <div class="header-card">
+            <h1>👨‍💼 نظام إدارة الموظفين الاحترافي</h1>
+            <p>لوحة التحكم والتجارب الشاملة لدوال وتحويلات Django Filters</p>
         </div>
 
-        <!-- كرت ملخص البيانات -->
-        <div class="info-card">
-            <div class="info-item">
-                <h4>الموظف المستهدف</h4>
-                <p>{{ employee_name|title }}</p>
+        <!-- كروت الإحصائيات مع الفلتر الخاص -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">الموظف المستهدف (اسم معالج)</div>
+                <div class="stat-value">{{ employee_name|title }}</div>
             </div>
-            <div class="info-item">
-                <h4>المسمى الوظيفي</h4>
-                <p>{{ job_title|upper }}</p>
+
+            <div class="stat-card">
+                <div class="stat-title">المسمى الوظيفي (فلتر خاص للوظيفة)</div>
+                <div class="stat-value">{{ job_title|employee_role }}</div>
             </div>
-            <div class="info-item">
-                <h4>إجمالي الفلاتر المطبقة</h4>
-                <p>9 فلاتر احترافية</p>
+
+            <div class="stat-card">
+                <div class="stat-title">تصنيف الراتب (الفلتر الخاص بنا 🌟)</div>
+                <div class="stat-value">
+                    <span class="custom-badge">{{ salary|salary_badge }}</span>
+                </div>
             </div>
         </div>
 
-        <!-- جدول الفلاتر التفصيلي -->
-        <div class="table-container">
-            <div class="table-title">
-                <h3>📊 قائمة الفلاتر المطلوبة والتنفيذ المباشر</h3>
-            </div>
-
+        <!-- جدول الفلاتر -->
+        <div class="section-card">
+            <div class="section-title">📊 قائمة الفلاتر المطبقة على البيانات</div>
             <table>
                 <thead>
                     <tr>
-                        <th>اسم الفلتر</th>
-                        <th>الكود المستخدم في Template</th>
-                        <th>النتيجة المخرجة</th>
+                        <th>نوع الفلتر</th>
+                        <th>كود الـ Template</th>
+                        <th>النتيجة الظاهرة</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><b>Upper</b> (أحرف كبيرة)</td>
+                        <td>أحرف كبيرة (Upper)</td>
                         <td><code>&#123;&#123; employee_name|upper &#125;&#125;</code></td>
-                        <td class="result-tag">{{ employee_name|upper }}</td>
+                        <td><b>{{ employee_name|upper }}</b></td>
                     </tr>
                     <tr>
-                        <td><b>Lower</b> (أحرف صغيرة)</td>
-                        <td><code>&#123;&#123; job_title|lower &#125;&#125;</code></td>
-                        <td class="result-tag">{{ job_title|lower }}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Title</b> (بدايات كبيرة)</td>
-                        <td><code>&#123;&#123; employee_name|title &#125;&#125;</code></td>
-                        <td class="result-tag">{{ employee_name|title }}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Length</b> (طول النص)</td>
+                        <td>طول النص (Length)</td>
                         <td><code>&#123;&#123; bio|length &#125;&#125;</code></td>
-                        <td class="result-tag">{{ bio|length }} حرف</td>
+                        <td><b>{{ bio|length }} حرفاً</b></td>
                     </tr>
                     <tr>
-                        <td><b>Truncatewords</b> (اقتطاع)</td>
-                        <td><code>&#123;&#123; bio|truncatewords:2 &#125;&#125;</code></td>
-                        <td class="result-tag">{{ bio|truncatewords:2 }}</td>
+                        <td>شارة الراتب (Custom Filter)</td>
+                        <td><code>&#123;&#123; salary|salary_badge &#125;&#125;</code></td>
+                        <td><b>{{ salary|salary_badge }}</b></td>
                     </tr>
                     <tr>
-                        <td><b>Default</b> (القيمة الافتراضية)</td>
-                        <td><code>&#123;&#123; skills_count|default:"لا يوجد مهام" &#125;&#125;</code></td>
-                        <td><span class="badge">{{ skills_count|default:"لا يوجد مهام" }}</span></td>
-                    </tr>
-                    <tr>
-                        <td><b>Date</b> (تنسيق التاريخ)</td>
-                        <td><code>&#123;&#123; join_date|date:"d/m/Y" &#125;&#125;</code></td>
-                        <td class="result-tag">{{ join_date|date:"d/m/Y" }}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Floatformat</b> (تقريب الرقم)</td>
-                        <td><code>&#123;&#123; salary|floatformat:1 &#125;&#125;</code></td>
-                        <td class="result-tag">{{ salary|floatformat:1 }} $</td>
-                    </tr>
-                    <tr>
-                        <td><b>Add</b> (العمليات الحسابية)</td>
-                        <td><code>&#123;&#123; bonus|add:500 &#125;&#125;</code></td>
-                        <td class="result-tag">{{ bonus|add:500 }} $</td>
+                        <td>تنسيق التاريخ (Date)</td>
+                        <td><code>&#123;&#123; join_date|date:"Y/m/d" &#125;&#125;</code></td>
+                        <td><b>{{ join_date|date:"Y/m/d" }}</b></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <!--  الشروط والحلقات التكرارية -->
-        <div class="table-container" style="margin-top: 30px; padding: 25px;">
-            <div class="table-title" style="background: none; padding: 0 0 15px 0;">
-                <h3>🔄 تطبيق الحلقات (for) والشروط (if)</h3>
-            </div>
 
-            <!-- 1. الشروط (if statement) -->
-            <div style="margin-bottom: 20px;">
-                <h4 style="color: var(--text-muted);">حالة الموظف (Conditional Statement):</h4>
+        <!-- الشروط والحلقات -->
+        <div class="section-card">
+            <div class="section-title">🔄 الحلقات والشروط (If & For)</div>
+            
+            <p><strong>حالة الموظف:</strong> 
                 {% if is_active %}
-                    <p style="color: #10b981; font-weight: bold; margin-top: 5px; font-size: 1.1em;">
-                        ✅ الموظف على رأس العمل (نشط)
-                    </p>
+                    <span style="color: #4ade80;">🟢 الموظف نشط وعلى رأس العمل</span>
                 {% else %}
-                    <p style="color: #ef4444; font-weight: bold; margin-top: 5px; font-size: 1.1em;">
-                        ❌ الموظف غير نشط حالياً
-                    </p>
+                    <span style="color: #f87171;">🔴 غير نشط</span>
                 {% endif %}
-            </div>
+            </p>
 
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
-            <!-- 2. الحلقات (for loop) -->
-            <div>
-                <h4 style="color: var(--text-muted);">قائمة الموظفين (For Loop):</h4>
-                <ul style="margin-top: 10px; padding-right: 20px; line-height: 2;">
-                    {% for emp in employees_list %}
-                        <li><b>الموظف:</b> {{ emp }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+            <h4 style="margin-top: 1.5rem; color: var(--text-muted);">قائمة الموظفين في الفريق:</h4>
+            <ul class="employee-list">
+                {% for emp in employees_list %}
+                    <li class="employee-chip">👤 {{ emp }}</li>
+                {% endfor %}
+            </ul>
         </div>
-
     </div>
 
 </body>
