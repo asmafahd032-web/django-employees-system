@@ -1,5 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Product  # جلب كلاس المنتجات
 
 def product_list_view(request):
-    return HttpResponse("<h2>مرحباً بك في قائمة منتجات ونظام الشركة 📦</h2>")
+    # 1. جلب كل المنتجات المخزنة من قاعدة البيانات
+    products_list = Product.objects.all()
+
+    # 2. إرسال المنتجات إلى صفحة الـ HTML
+    context = {
+        'products': products_list
+    }
+    return render(request, 'store/products.html', context)
