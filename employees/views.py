@@ -5,7 +5,7 @@ def home(request):
     context = {
         "employee_name": "asma fahd",
         "job_title": "Software Engineer",
-        "salary": 12500.50,
+        "salary": 1500,
         "bonus": 500,
         "bio": "experienced python and django developer",
         "employees_list": ["Asma", "Sma", "Mohammed", "Ahmed"],
