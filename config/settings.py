@@ -128,3 +128,7 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/account/login/'
+
+# إعداد إرسال الإيميلات للـ Terminal (للتجربة والتقييم)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'admin@myproject.com'
