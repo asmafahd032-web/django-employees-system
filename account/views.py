@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import UserProfile, Skill
+from .forms import UserProfileForm
 
 def login_view(request):
     if request.method == 'POST':
@@ -42,3 +44,55 @@ def register_view(request):
             return redirect('/')
 
     return render(request, 'account/register.html')
+
+def queryset_demo(request):
+    # 1. all(): جلب جميع الموظفين
+    all_employees = UserProfile.objects.all()
+
+    # 2. filter(): جلب الموظفين النشطين
+    active_employees = UserProfile.objects.filter(is_active=True)
+
+    # 3. exclude(): استبعاد المديرين
+    non_admin_employees = UserProfile.objects.exclude(role='admin')
+
+    # 4. get(): جلب الموظف أحمد
+    ahmed = UserProfile.objects.get(username='ahmed')
+
+    # 5. order_by(): ترتيب الموظفين حسب الاسم
+    ordered_employees = UserProfile.objects.order_by('full_name')
+
+    # 6. count(): حساب عدد الموظفين والمهارات
+    employee_count = UserProfile.objects.all().count()
+    skill_count = Skill.objects.all().count()
+
+    # 7. exists(): التحقق من وجود أحمد
+    ahmed_exists = UserProfile.objects.filter(username='ahmed').exists()
+
+    context = {
+        'all_employees': all_employees,
+        'active_employees': active_employees,
+        'non_admin_employees': non_admin_employees,
+        'ahmed': ahmed,
+        'ordered_employees': ordered_employees,
+        'employee_count': employee_count,
+        'skill_count': skill_count,
+        'ahmed_exists': ahmed_exists,
+    }
+
+    return render(request, 'account/queryset_demo.html', context)
+
+def add_user_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('account:profile_success')
+    else:
+        form = UserProfileForm()
+
+    return render(request, 'account/user_profile_form.html', {'form': form})
+
+
+def profile_success(request):
+    return render(request, 'account/profile_success.html')
