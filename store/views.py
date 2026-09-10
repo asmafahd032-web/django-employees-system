@@ -1,3 +1,4 @@
+#ماذا يحدث عندما يطلب المستخدم الصفحه 
 from django.shortcuts import render
 from .models import Product  # جلب كلاس المنتجات
 

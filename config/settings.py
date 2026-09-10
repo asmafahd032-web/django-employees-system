@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -142,3 +143,15 @@ LOGOUT_REDIRECT_URL = '/account/login/'
 # إعداد إرسال الإيميلات للـ Terminal (للتجربة والتقييم)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'admin@myproject.com'
+
+LOGIN_URL = '/account/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'asmafahd032@gmail.com'
+EMAIL_HOST_PASSWORD = 'wdyoqqpuejlrmyea'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

@@ -10,7 +10,10 @@ urlpatterns = [
      path('profile/add/', views.add_user_profile, name='add_user_profile'),
 path('profile/success/', views.profile_success, name='profile_success'),
 
-       
+
+       path('send-teacher-email/', views.send_teacher_email, name='send_teacher_email'),
+path('email-success/', views.email_success, name='email_success'),
+
 ]
 
 

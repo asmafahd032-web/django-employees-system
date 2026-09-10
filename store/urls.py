@@ -1,3 +1,4 @@
+#اي رابط يذهب الى اي صفحه
 from django.urls import path
 from . import views
 

@@ -24,3 +24,15 @@ class UserProfileForm(forms.ModelForm):
         if not email.endswith('@gmail.com') and not email.endswith('@company.com'):
             raise forms.ValidationError("يرجى إدخال بريد إلكتروني رسمي ينتهي بـ @gmail.com أو @company.com")
         return email
+
+
+
+class TeacherEmailForm(forms.Form):
+    subject = forms.CharField(
+        max_length=200,
+        label='عنوان الرسالة'
+    )
+    message = forms.CharField(
+        widget=forms.Textarea,
+        label='محتوى الرسالة'
+    )
